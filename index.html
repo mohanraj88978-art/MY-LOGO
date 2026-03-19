@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send Message</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background:url('MY LOGO1.png.jpeg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgb(255, 0, 0);
+        }
+        #name {
+            background-color:transparent;
+            color: #ff0000;
+        }
+        #msg{
+            background-color:transparent;
+            color: #ff0000;
+        }
+
+        .container {
+            background:transparent;
+            padding: 25px;
+            border-radius: 15px;
+            width: 320px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.6);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background:transparent;
+            color: rgb(168, 168, 168);
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #777877;
+            transform: scale(1.05);
+        }
+
+        .status {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .success {
+            color: #747474;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+    <h2>Send Message</h2>
+
+    <input id="name" placeholder="Your name">
+    <textarea id="msg" placeholder="Type your message..."></textarea>
+
+    <button onclick="sendMsg()">Send 🚀</button>
+
+    <div id="status" class="status"></div>
+</div>
+
+<script>
+function sendMsg() {
+    const name = document.getElementById("name").value;
+    const message = document.getElementById("msg").value;
+    const status = document.getElementById("status");
+
+    fetch("http://localhost:3000/send", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, message })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            status.innerHTML = "Message sent successfully ✅";
+            status.className = "status success";
+            document.getElementById("msg").value = "";
+        } else {
+            status.innerHTML = "Failed to send ❌";
+            status.className = "status error";
+        }
+    })
+    .catch(() => {
+        status.innerHTML = "Server error ❌";
+        status.className = "status error";
+    });
+}
+</script>
+
+</body>
+</html>
