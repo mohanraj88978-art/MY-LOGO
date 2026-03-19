@@ -103,7 +103,7 @@ function sendMsg() {
     const message = document.getElementById("msg").value;
     const status = document.getElementById("status");
 
-    fetch("http://localhost:3000/send", {
+    fetch("https://telegram-app-64ex.onrender.com", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
